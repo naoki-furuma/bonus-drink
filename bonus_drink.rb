@@ -1,20 +1,17 @@
 class BonusDrink
+  SERVICE_REQUIRED_BOTTLES = 3
+
   def self.total_count_for(amount)
-    service_amount_condition = 3
+    sho, amari = amount.divmod(SERVICE_REQUIRED_BOTTLES)
+    returned_bottles = sho * SERVICE_REQUIRED_BOTTLES
+    existing_bottles = sho + amari
 
-    temp_amount = amount
-    service_amount = -1
-    service_amount_before = -1
-
-    loop do
-      service_amount = temp_amount.div(service_amount_condition)
-      if service_amount == service_amount_before
-        break
-      end
-      temp_amount = amount + service_amount
-      service_amount_before = service_amount
+    if existing_bottles > (SERVICE_REQUIRED_BOTTLES - 1)
+      service_bottles = total_count_for(existing_bottles)
+    else
+      service_bottles = existing_bottles
     end
 
-    return temp_amount
+    returned_bottles + service_bottles
   end
 end
